@@ -9,10 +9,10 @@ import numpy as np
 
 def evaluate(predictions, labels, class_names):
 
-    # Sınıfların sayısını belirle
+
     num_classes = len(class_names)
 
-    # Confusion Matrix (her sınıf için)
+
     cm = confusion_matrix(labels, predictions)
     print("Confusion Matrix:")
     print(cm)
