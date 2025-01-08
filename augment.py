@@ -18,9 +18,9 @@ from tqdm import tqdm
 from pathlib import Path
 
 PROBABILITY = 0.1
-SAMPLE_SIZE = 10000
+SAMPLE_SIZE = 1000
 augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/train/AP/', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
-augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/AP_horizontal', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
-augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/L/', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
-augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/PA', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
+augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/train/AP_horizontal', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
+augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/train/L/', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
+augment(path='/media/envisage/backup8tb/Padchest/projectionClassificationImages/train/PA/', probability=PROBABILITY, sample_size=SAMPLE_SIZE)
 # /media/envisage/backup8tb/Padchest/projectionClassificationImages

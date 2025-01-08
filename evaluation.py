@@ -1,28 +1,40 @@
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, roc_auc_score
 import matplotlib.pyplot as plt
 from sklearn import metrics
 
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn import metrics
+from sklearn.preprocessing import label_binarize
 import numpy as np
 
 
 def evaluate(predictions, labels, class_names):
-
+    labels = labels.cpu().numpy()
+    predictions = predictions.cpu().numpy()
 
     num_classes = len(class_names)
 
 
-    cm = confusion_matrix(labels, predictions)
-    print("Confusion Matrix:")
-    print(cm)
+
+    cm = confusion_matrix(
+        y_true=labels,
+        y_pred=predictions,
+        labels=[0, 1]  # frontal lateral
+    )
+
+
 
     # Class-specific metrics (Precision, Recall, F1 per class)
-    class_report = classification_report(labels, predictions, target_names=class_names, zero_division=0)
-    print("\nClassification Report:")
-    print(class_report)
+    class_report = classification_report(
+        y_true=labels,
+        y_pred=predictions,
+        target_names=class_names,
+        labels=list(range(len(class_names))),
+        zero_division=0
+    )
 
-    # Genel Doğruluk (Accuracy)
+
+
     accuracy = metrics.accuracy_score(labels, predictions)
 
     # Precision, Recall, F1 Score (macro)
@@ -33,11 +45,10 @@ def evaluate(predictions, labels, class_names):
     # Cohen's Kappa
     kappa = metrics.cohen_kappa_score(labels, predictions)
 
-    # ROC AUC (çok sınıflı destek)
     try:
-        auc = metrics.roc_auc_score(
-            metrics.label_binarize(labels, classes=range(num_classes)),
-            metrics.label_binarize(predictions, classes=range(num_classes)),
+        auc = roc_auc_score(
+            y_true=label_binarize(labels, classes=range(num_classes)),  # Doğru modül ile çağır
+            y_score=label_binarize(predictions, classes=range(num_classes)),  # Doğru modül ile çağır
             average='macro',
             multi_class="ovr"
         )
