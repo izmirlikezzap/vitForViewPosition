@@ -7,6 +7,7 @@ from torchvision import datasets, transforms, models
 from torch.utils.data import DataLoader
 from torch import nn, optim
 from tqdm import tqdm
+import pandas as pd
 
 # Paths
 main = "/media/envisage/backup8tb/Padchest"
@@ -94,6 +95,9 @@ def evaluate_model(model, criterion, dataloader):
     accuracy = correct / total
     return running_loss / len(dataloader), accuracy
 
+# Results Storage
+results = []
+
 # Training Loop
 for model_func in models_to_train:
     for seed in range(num_seeds):
@@ -128,3 +132,13 @@ for model_func in models_to_train:
                 torch.save(model.state_dict(), f"best_{model_func.__name__}_seed{seed}.pth")
 
         print(f"Best Validation Accuracy for {model_func.__name__} with seed {seed}: {best_val_acc:.4f}")
+        results.append({
+            "Model": model_func.__name__,
+            "Seed": seed,
+            "Best_Validation_Accuracy": best_val_acc
+        })
+
+# Save Results to Excel
+results_df = pd.DataFrame(results)
+results_df.to_excel("classification_results.xlsx", index=False)
+print("Results saved to classification_results.xlsx")
