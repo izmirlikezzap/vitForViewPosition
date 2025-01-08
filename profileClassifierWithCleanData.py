@@ -20,7 +20,18 @@ batch_size = 64  # Adjust based on 24GB GPU
 num_epochs = 10
 learning_rate = 0.001
 num_seeds = 5
-models_to_train = [models.resnet18, models.mobilenet_v2, models.alexnet, models.densenet121]
+models_to_train = [
+    models.resnet18,
+    models.mobilenet_v2,
+    models.alexnet,
+    models.densenet121,
+    models.vgg16,
+    models.inception_v3,
+    models.efficientnet_b0,
+    models.squeezenet1_0,
+    models.shufflenet_v2_x1_0,
+    models.resnext50_32x4d
+]
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Transformations
