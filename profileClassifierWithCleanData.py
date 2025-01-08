@@ -17,10 +17,10 @@ test_folder = dataset_folder / "test"
 val_folder = dataset_folder / "validation"
 
 # Hyperparameters
-batch_size = 64  # Adjust based on 24GB GPU
-num_epochs = 10
+batch_size = 32  # Adjust based on 24GB GPU
+num_epochs = 30
 learning_rate = 0.001
-num_seeds = 5
+num_seeds = 10
 models_to_train = [
     models.resnet18,
     models.mobilenet_v2,
@@ -33,7 +33,8 @@ models_to_train = [
     models.shufflenet_v2_x1_0,
     models.resnext50_32x4d
 ]
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+print("device:", device)
 
 # Transformations
 transform = transforms.Compose([
@@ -129,7 +130,7 @@ for model_func in models_to_train:
 
             if val_acc > best_val_acc:
                 best_val_acc = val_acc
-                torch.save(model.state_dict(), f"best_{model_func.__name__}_seed{seed}.pth")
+                torch.save(model.state_dict(), f"cleaned_best_{model_func.__name__}_seed{seed}.pth")
 
         print(f"Best Validation Accuracy for {model_func.__name__} with seed {seed}: {best_val_acc:.4f}")
         results.append({
