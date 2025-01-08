@@ -29,19 +29,23 @@ def apply_clahe_to_images(input_folder, output_folder):
     output_folder = Path(output_folder)
     output_folder.mkdir(parents=True, exist_ok=True)
 
-    for img_path in tqdm(list(input_folder.rglob("*.jpg")), desc=f"Processing {input_folder}"):
-        img = cv2.imread(str(img_path), cv2.IMREAD_GRAYSCALE)
-        if img is None:
-            continue
+    for subfolder in input_folder.iterdir():
+        if subfolder.is_dir():
+            sub_output_folder = output_folder / subfolder.name
+            sub_output_folder.mkdir(parents=True, exist_ok=True)
+            for img_path in tqdm(list(subfolder.rglob("*.jpg")), desc=f"Processing {subfolder}"):
+                img = cv2.imread(str(img_path), cv2.IMREAD_GRAYSCALE)
+                if img is None:
+                    continue
 
-        # Apply CLAHE
-        enhanced_img = clahe.apply(img)
+                # Apply CLAHE
+                enhanced_img = clahe.apply(img)
 
-        # Save the enhanced image
-        relative_path = img_path.relative_to(input_folder)
-        output_path = output_folder / relative_path
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        cv2.imwrite(str(output_path), enhanced_img)
+                # Save the enhanced image
+                relative_path = img_path.relative_to(input_folder)
+                output_path = output_folder / relative_path
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                cv2.imwrite(str(output_path), enhanced_img)
 
 # Apply CLAHE to train, test, and validation folders
 apply_clahe_to_images(train_folder, clahe_train_folder)
