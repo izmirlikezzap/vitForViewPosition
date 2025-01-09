@@ -33,7 +33,7 @@ def apply_clahe_to_images(input_folder, output_folder):
         if subfolder.is_dir():
             sub_output_folder = output_folder / subfolder.name
             sub_output_folder.mkdir(parents=True, exist_ok=True)
-            for img_path in tqdm(list(subfolder.rglob("*.jpg")), desc=f"Processing {subfolder}"):
+            for img_path in tqdm(list(subfolder.rglob("*.png")), desc=f"Processing {subfolder}"):
                 img = cv2.imread(str(img_path), cv2.IMREAD_GRAYSCALE)
                 if img is None:
                     continue
